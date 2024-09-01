@@ -31,15 +31,15 @@ const matchesRating = (movie: Movie, rating: string) => {
 	}
 };
 
-const filteredMovies = () =>
-	movies()?.filter(
-		(movie) =>
-			matchesSearchTerm(movie, searchTerm()) &&
-			matchesGenre(movie, genre()) &&
-			matchesRating(movie, rating()),
-	);
-
 export default function MoviesGrid() {
+	const filteredMovies = () =>
+		movies()?.filter(
+			(movie) =>
+				matchesSearchTerm(movie, searchTerm()) &&
+				matchesGenre(movie, genre()) &&
+				matchesRating(movie, rating()),
+		);
+
 	return (
 		<>
 			<input
@@ -55,6 +55,7 @@ export default function MoviesGrid() {
 					<label>Genre</label>
 					<select
 						class="filter-dropdown"
+						value={genre()}
 						onChange={(e) => setGenre(e.target.value)}
 					>
 						<option>All Genres</option>
@@ -69,6 +70,7 @@ export default function MoviesGrid() {
 					<label>Rating</label>
 					<select
 						class="filter-dropdown"
+						value={rating()}
 						onChange={(e) => setRating(e.target.value)}
 					>
 						<option>All</option>
