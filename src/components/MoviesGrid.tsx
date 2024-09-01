@@ -31,15 +31,15 @@ const matchesRating = (movie: Movie, rating: string) => {
 	}
 };
 
-export default function MoviesGrid() {
-	const filteredMovies = () =>
-		movies()?.filter(
-			(movie) =>
-				matchesSearchTerm(movie, searchTerm()) &&
-				matchesGenre(movie, genre()) &&
-				matchesRating(movie, rating()),
-		);
+const filteredMovies = () =>
+	movies()?.filter(
+		(movie) =>
+			matchesSearchTerm(movie, searchTerm()) &&
+			matchesGenre(movie, genre()) &&
+			matchesRating(movie, rating()),
+	);
 
+export default function MoviesGrid() {
 	return (
 		<>
 			<input
