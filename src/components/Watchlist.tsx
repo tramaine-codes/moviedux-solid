@@ -4,10 +4,10 @@ import MovieCard from "./MovieCard";
 
 export const watchlistSignal = createSignal<number[]>([]);
 
-export default function Watchlist() {
-	const [watchlist] = watchlistSignal;
-	const [movies] = moviesSignal;
+const [watchlist] = watchlistSignal;
+const [movies] = moviesSignal;
 
+export default function Watchlist() {
 	return (
 		<div>
 			<h1 class="title">Your Watchlist</h1>

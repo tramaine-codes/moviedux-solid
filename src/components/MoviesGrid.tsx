@@ -1,9 +1,44 @@
-import { For } from "solid-js";
-import { moviesSignal } from "../App";
+import { For, createSignal } from "solid-js";
+import { type Movie, moviesSignal } from "../App";
 import MovieCard from "./MovieCard";
 
+const [movies] = moviesSignal;
+const [searchTerm, setSearchTerm] = createSignal("");
+const [genre, setGenre] = createSignal("All Genres");
+const [rating, setRating] = createSignal("All");
+
+const matchesSearchTerm = (movie: Movie, searchTerm: string) =>
+	movie.title.toLowerCase().includes(searchTerm.toLowerCase());
+
+const matchesGenre = (movie: Movie, genre: string) =>
+	genre === "All Genres" || movie.genre.toLowerCase() === genre.toLowerCase();
+
+const matchesRating = (movie: Movie, rating: string) => {
+	switch (rating) {
+		case "All":
+			return true;
+		case "Good":
+			return Number.parseFloat(movie.rating) >= 8;
+		case "Ok":
+			return (
+				Number.parseFloat(movie.rating) >= 5 &&
+				Number.parseFloat(movie.rating) < 8
+			);
+		case "Bad":
+			return Number.parseFloat(movie.rating) < 5;
+		default:
+			return false;
+	}
+};
+
 export default function MoviesGrid() {
-	const [movies] = moviesSignal;
+	const filteredMovies = () =>
+		movies()?.filter(
+			(movie) =>
+				matchesSearchTerm(movie, searchTerm()) &&
+				matchesGenre(movie, genre()) &&
+				matchesRating(movie, rating()),
+		);
 
 	return (
 		<>
@@ -11,12 +46,17 @@ export default function MoviesGrid() {
 				type="text"
 				class="search-input"
 				placeholder="Search movies . . ."
+				value={searchTerm()}
+				onInput={(e) => setSearchTerm(e.target.value)}
 			/>
 
 			<div class="filter-bar">
 				<div class="filter-slot">
 					<label>Genre</label>
-					<select class="filter-dropdown">
+					<select
+						class="filter-dropdown"
+						onChange={(e) => setGenre(e.target.value)}
+					>
 						<option>All Genres</option>
 						<option>Action</option>
 						<option>Drama</option>
@@ -27,7 +67,10 @@ export default function MoviesGrid() {
 
 				<div class="filter-slot">
 					<label>Rating</label>
-					<select class="filter-dropdown">
+					<select
+						class="filter-dropdown"
+						onChange={(e) => setRating(e.target.value)}
+					>
 						<option>All</option>
 						<option>Good</option>
 						<option>Ok</option>
@@ -37,7 +80,9 @@ export default function MoviesGrid() {
 			</div>
 
 			<div class="movies-grid">
-				<For each={movies()}>{(movie) => <MovieCard movie={movie} />}</For>
+				<For each={filteredMovies()}>
+					{(movie) => <MovieCard movie={movie} />}
+				</For>
 			</div>
 		</>
 	);

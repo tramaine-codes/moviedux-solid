@@ -1,10 +1,16 @@
-import { Match, Switch } from "solid-js";
+import { type JSX, Match, Switch } from "solid-js";
 import type { Movie } from "../App";
 import { watchlistSignal } from "./Watchlist";
 
 interface MovieCardProps {
 	readonly movie: Movie;
 }
+
+const [watchlist, setWatchlist] = watchlistSignal;
+
+const handleError: JSX.EventHandler<HTMLImageElement, Event> = (e) => {
+	e.currentTarget.src = "images/default.jpg";
+};
 
 const ratingClass = (rating: string) => {
 	if (Number.parseFloat(rating) >= 8) {
@@ -17,8 +23,6 @@ const ratingClass = (rating: string) => {
 
 	return "rating-bad";
 };
-
-const [watchlist, setWatchlist] = watchlistSignal;
 
 const toggleWatchlist = ({ id: movieId }: Movie) => {
 	setWatchlist((prev) =>
@@ -33,7 +37,11 @@ export default function MovieCard({ movie }: MovieCardProps) {
 
 	return (
 		<div class="movie-card">
-			<img src={`images/${movie.image}`} alt={movie.title} />
+			<img
+				src={`images/${movie.image}`}
+				alt={movie.title}
+				onError={handleError}
+			/>
 			<div class="movie-card-info">
 				<h3 class="movie-card-title">{movie.title}</h3>
 
