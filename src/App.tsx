@@ -33,9 +33,9 @@ export default function App(props: { children?: JSX.Element }) {
             </li>
           </ul>
         </nav>
-      </div>
 
-      {props.children}
+        {props.children}
+      </div>
 
       <Footer />
     </div>
