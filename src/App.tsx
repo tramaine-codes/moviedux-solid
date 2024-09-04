@@ -6,38 +6,38 @@ import Header from "./components/Header";
 import "./styles.css";
 
 export interface Movie {
-	readonly id: number;
-	readonly title: string;
-	readonly image: string;
-	readonly genre: string;
-	readonly rating: string;
+  readonly id: number;
+  readonly title: string;
+  readonly image: string;
+  readonly genre: string;
+  readonly rating: string;
 }
 
 export const moviesSignal = createResource(async () => {
-	const response = await fetch("movies.json");
-	return (await response.json()) as Movie[];
+  const response = await fetch("movies.json");
+  return (await response.json()) as Movie[];
 });
 
 export default function App(props: { children?: JSX.Element }) {
-	return (
-		<div class="App">
-			<div class="container">
-				<Header />
-				<nav>
-					<ul>
-						<li>
-							<A href="/">Home</A>
-						</li>
-						<li>
-							<A href="/watchlist">Watchlist</A>
-						</li>
-					</ul>
-				</nav>
-			</div>
+  return (
+    <div class="App">
+      <div class="container">
+        <Header />
+        <nav>
+          <ul>
+            <li>
+              <A href="/">Home</A>
+            </li>
+            <li>
+              <A href="/watchlist">Watchlist</A>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-			{props.children}
+      {props.children}
 
-			<Footer />
-		</div>
-	);
+      <Footer />
+    </div>
+  );
 }

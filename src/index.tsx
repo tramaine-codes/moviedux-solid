@@ -7,12 +7,12 @@ import Watchlist from "./components/Watchlist";
 import "./index.css";
 
 render(
-	() => (
-		<Router root={App}>
-			<Route path="/" component={MoviesGrid} />
-			<Route path="/watchlist" component={Watchlist} />
-		</Router>
-	),
-	// biome-ignore lint/style/noNonNullAssertion: <explanation>
-	document.getElementById("root")!,
+  () => (
+    <Router root={App}>
+      <Route path="/" component={MoviesGrid} />
+      <Route path="/watchlist" component={Watchlist} />
+    </Router>
+  ),
+  // biome-ignore lint/style/noNonNullAssertion: <explanation>
+  document.getElementById("root")!,
 );
